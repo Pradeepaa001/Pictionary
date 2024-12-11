@@ -6,4 +6,9 @@ defmodule WordSketchWeb.PageController do
     # so skip the default app layout.
     render(conn, :home, layout: false)
   end
+
+  def room(conn, _params) do
+    render(conn, :room, layout: false)
+  end
+
 end
