@@ -3,7 +3,7 @@ import Config
 # Configure your database
 config :word_sketch, WordSketch.Repo,
   username: "postgres",
-  password: "art123",
+  password: "postgres",
   hostname: "localhost",
   database: "word_sketch_dev",
   stacktrace: true,
