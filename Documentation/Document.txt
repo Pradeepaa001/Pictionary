@@ -1,0 +1,6 @@
+11/12/24 --> WordSketch - "Pictionary" inspired game in Elixir and Phoenix
+First pitch presented.
+1. Understood and analysed the features of a pictionary game.
+2. Database - Postgres was installed.
+3. Frontend - Explored heex files.
+4. Backend - Explored pow and guardian api for user authentication.
