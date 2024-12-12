@@ -7,6 +7,10 @@ defmodule WordSketchWeb.PageController do
     render(conn, :home, layout: false)
   end
 
+  def index(conn, _params) do
+    render(conn, :index, layout: false)
+  end
+
   def room(conn, _params) do
     render(conn, :room, layout: false)
   end

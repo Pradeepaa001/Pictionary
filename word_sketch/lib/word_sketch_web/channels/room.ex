@@ -5,8 +5,12 @@ defmodule WordSketchWeb.RoomChannel do
     {:ok, socket}
   end
 
-  def handle_in("new_message", payload, socket) do
-    broadcast! socket, "new_message", payload
+  def handle_in("new_message", %{"message" => message, "username" => username}, socket) do
+    broadcast!(socket, "new_message", %{
+      message: message,
+      username: username,
+    })
     {:noreply, socket}
   end
+
 end

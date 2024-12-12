@@ -18,7 +18,8 @@ defmodule WordSketchWeb.Router do
     pipe_through :browser
 
     get "/", PageController, :home
-    get "/room", PageController, :room
+    get "/index", PageController, :index
+    get "/index/room", PageController, :room
   end
 
   # Other scopes may use custom stacks.
