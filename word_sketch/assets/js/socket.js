@@ -28,5 +28,23 @@ channel.on('new_message', payload => {
 channel.join()
   .receive("ok", resp => { console.log("Joined successfully", resp) })
   .receive("error", resp => { console.log("Unable to join", resp) })
+  channel.push("start_timer", { time: 60 })
 
+  // Make a guess
+  document.getElementById("guess-button").addEventListener("click", () => {
+    const user = "Player1"
+    channel.push("make_guess", { user: user })
+  })
+  
+  // Handle timer updates
+  channel.on("timer_update", payload => {
+    console.log(`Time left: ${payload.time_left}`)
+    document.getElementById("timer").innerText = `Time left: ${payload.time_left} seconds`;
+  })
+  
+  // Handle game over
+  channel.on("game_over", payload => {
+    console.log(`Game Over! Winner: ${payload.winner.user}`, `Time: ${payload.winner.time} seconds`)
+  })
+  
 export default socket
