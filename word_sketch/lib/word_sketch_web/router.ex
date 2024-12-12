@@ -19,6 +19,7 @@ defmodule WordSketchWeb.Router do
 
     get "/", PageController, :home
     get "/index", PageController, :index
+    get "/index/room" <> "abcd", PageController, :room
     get "/index/room", PageController, :room
   end
 
