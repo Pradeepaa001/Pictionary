@@ -11,8 +11,8 @@ defmodule WordSketchWeb.PageController do
     render(conn, :index, layout: false)
   end
 
-  def room(conn, _params) do
-    render(conn, :room, layout: false)
+  def room(conn, %{"roomCode" => roomCode}) do
+    render(conn, :room, roomCode: roomCode)
   end
 
 end

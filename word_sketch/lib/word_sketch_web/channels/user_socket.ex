@@ -1,7 +1,7 @@
 defmodule WordSketchWeb.UserSocket do
   use Phoenix.Socket
 
-  channel "room" <> "abcd", WordSketchWeb.RoomChannel
+  channel "room*", WordSketchWeb.RoomChannel
 
   # @impl true
   # def connect(%{"username" => username, "vsn" => _vsn}, socket, _connect_info) do
