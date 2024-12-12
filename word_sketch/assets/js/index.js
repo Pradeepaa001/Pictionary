@@ -1,9 +1,9 @@
 import { Socket } from "phoenix"
 
 document.addEventListener("DOMContentLoaded", () => {
-    const button = document.querySelector("button");
+    const button = document.getElementById("start-game");
     const input = document.getElementById("name");
-    const roomcode = document.getElementById("roomcode")
+    const roomcode = document.getElementById("roomcode");
 
     button.addEventListener("click", () => {
         const userName = input.value.trim();
