@@ -91,6 +91,14 @@ defmodule WordSketchWeb.RoomChannel do
     # Get time from the timer and register the correct guess
     guess_time = GameTimer.get_time(socket.assigns.roomCode)
     GameTimer.guess_correct(socket.assigns.roomCode, user, guess_time)
+
+    # Broadcast the guess to all clients in the room
+    broadcast!(socket, "guess_made", %{
+      user: user,
+      guess_time: guess_time,
+      roomCode: socket.assigns.roomCode
+    })
+
     {:noreply, socket}
   end
 
@@ -105,4 +113,15 @@ defmodule WordSketchWeb.RoomChannel do
     push(socket, "game_over", %{winner: winner})
     {:stop, :normal, socket}
   end
+
+  # New callback to handle correct guess broadcast from GameTimer
+  def handle_info(%{event: :correct_guess, user: user, guess_time: guess_time}, socket) do
+    push(socket, "guess_made", %{
+      user: user,
+      guess_time: guess_time,
+      roomCode: socket.assigns.roomCode
+    })
+    {:noreply, socket}
+  end
 end
+
