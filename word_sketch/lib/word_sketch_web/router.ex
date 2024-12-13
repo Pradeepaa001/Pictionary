@@ -17,10 +17,12 @@ defmodule WordSketchWeb.Router do
   scope "/", WordSketchWeb do
     pipe_through :browser
 
-    get "/", PageController, :home
-    get "/index", PageController, :index
-    # get "/index/room" <> "abcd", PageController, :room
-    get "/index/room:roomCode", PageController, :room
+    post "/game_exists/:room_code", IndexController, :game_exists
+    get "/", IndexController, :index
+    get "/room:roomCode", PageController, :room
+    post "/create_room", IndexController, :create_room
+
+
   end
 
   # Other scopes may use custom stacks.
