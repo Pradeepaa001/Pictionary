@@ -3,10 +3,10 @@ defmodule WordSketch.Repo.Migrations.CreateGames do
 
   def change do
     create table(:games) do
-      add :room_code, :string, null: false, unique: true
-      add :creator_name, :string, null: false, unique: true
+      add :room_code, :string, unique: true
+      add :creator_name, :string, unique: true
       add :creator_id, references(:users, on_delete: :nothing)
-      add :word_id, references(:words, on_delete: :nothing), null: false
+      add :word_id, references(:words, on_delete: :nothing)
       add :status, :string, default: "active"
 
       timestamps()
