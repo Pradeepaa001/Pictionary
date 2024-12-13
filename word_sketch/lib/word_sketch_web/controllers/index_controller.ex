@@ -18,15 +18,4 @@ defmodule WordSketchWeb.IndexController do
     end
   end
 
-  def game_exists(conn, %{"room_code" => room_code}) do
-    IO.puts(room_code)
-    case Repo.get_by(Game, room_code: room_code) do
-      nil ->
-        json(conn, %{exists: false})
-      game ->
-        json(conn, %{exists: true})
-    end
-  end
-
-
 end
