@@ -19,7 +19,8 @@ defmodule WordSketch.GameTimer do
 
   # GenServer Callbacks
   def init(state) do
-    Process.send_after(self(), :tick, 1000)
+    # Ensure the first tick is sent immediately
+    send(self(), :tick)
     {:ok, state}
   end
 
@@ -30,6 +31,7 @@ defmodule WordSketch.GameTimer do
 
   def handle_info(:tick, %{time_left: time_left, room_code: room_code} = state) do
     Phoenix.PubSub.broadcast(WordSketch.PubSub, "room:#{room_code}", %{event: :time_update, time_left: time_left})
+    # Always schedule the next tick, regardless of any guesses
     Process.send_after(self(), :tick, 1000)
     {:noreply, %{state | time_left: time_left - 1}}
   end
@@ -45,7 +47,9 @@ defmodule WordSketch.GameTimer do
         _ -> state
       end
 
+    # Broadcast correct guess event
     Phoenix.PubSub.broadcast(WordSketch.PubSub, "room:#{state.room_code}", %{event: :correct_guess, user: user, guess_time: guess_time})
+
     {:reply, :ok, new_state}
   end
 end
