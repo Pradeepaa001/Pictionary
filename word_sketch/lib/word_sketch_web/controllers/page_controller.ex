@@ -1,18 +1,20 @@
 defmodule WordSketchWeb.PageController do
   use WordSketchWeb, :controller
-  alias WordSketch.Index
-  alias WordSketch.Repo
-  alias WordSketch.Games.Game
-
-  def home(conn, _params) do
-    # The home page is often custom made,
-    # so skip the default app layout.
-    render(conn, :home, layout: false)
-  end
+  # alias WordSketch.Games.Game
+  # alias WordSketch.Repo
+  # import Ecto.Query
 
   def room(conn, %{"roomCode" => roomCode}) do
-    if Repo.exists?(Game, room_code: roomCode) do
-      render(conn, :room, roomCode: roomCode)
-    end
+      render(conn, :room, roomCode: roomCode, layout: false)
   end
+
+
+  # defp check_room_exists(room_code) do
+  #   query = from g in Game,
+  #           where: g.room_code == ^room_code,
+  #           select: count(g.id) > 0
+
+  #   Repo.one(query)
+  # end
+
 end

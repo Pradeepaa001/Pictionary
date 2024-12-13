@@ -11,7 +11,8 @@ defmodule WordSketchWeb.UserSocket do
   @impl true
   def connect(params, socket, _connect_info) do
     case params do
-      %{"username" => username,"roomCode" => roomCode, "vsn" => _vsn} -> {:ok, assign(socket, %{ username: username, roomCode: roomCode})}
+      %{"username" => username,"roomCode" => roomCode, "vsn" => _vsn} ->
+        {:ok, assign(socket, %{ username: username, roomCode: roomCode})}
       %{"username" => username, "vsn" => _vsn} ->  {:ok, assign(socket, %{ username: username, roomCode: ""})}
       %{"roomCode" => roomCode, "vsn" => _vsn} ->  {:ok, assign(socket, %{ username: "Anonymous", roomCode: roomCode})}
       %{"vsn" => _vsn} -> {:ok, assign(socket, %{ username: "Anonymous", roomCode: ""})}
