@@ -1,26 +1,103 @@
-<html>
-    <head>
-    </head>
+<!DOCTYPE html>
+<html lang="en">
 
-    <body>
-        <div>
-            <h1> Am tryinggggggg </h1>
-        </div>
-        <div id='chat' class='row'>
-        <div id="timer">Time left: 60 seconds</div>
-        </div>
-        <div class='col-md-6'>
-            <input type='text' id='message' class='form-control' placeholder='Type smtg'/>
-        </div>
-        <div class="col-md-6">
-      <input type="text" id="message" class="form-control" placeholder="Type smtg" />
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Word Sketch - Room</title>
+  <link rel="stylesheet" href="/css/room.css">
+</head>
+
+<body>
+  <div class="game-container">
+    <!-- Player List -->
+    <div id="player-list" class="sidebar">
+      <h2>Players</h2>
+      <ul id="players">
+        <li>#1 Player1 (500 points)</li>
+        <li>#2 Player2 (300 points)</li>
+        <li>#3 Player3 (200 points)</li>
+      </ul>
     </div>
 
-    <button id="guess-button">Make a Guess</button>
+    <!-- Main Content -->
+    <div class="main-content">
+      <!-- Room Header -->
+      <div id="room-header">
+        <p>Room Code: <strong id="room-code">1234-5678</strong></p>
+      </div>
 
-        <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-<script type="module" src={~p"/assets/js/socket.js"}></script>
-    </body>
+      <!-- Game Header -->
+      <div id="game-header">
+        <p>Round <span id="round-number">1</span> of <span id="total-rounds">3</span> | Draw this: <strong id="word-to-draw">Mirror</strong></p>
+        <p id="countdown" class="timer">00:30</p>
+      </div>
+
+      <!-- Canvas -->
+      <div id="drawing-canvas-container">
+        <canvas id="drawing-canvas" width="600" height="400"></canvas>
+        <div class="controls">
+          <button id="clear-canvas">Clear</button>
+          <input type="color" id="color-picker" value="#000000" />
+          <input type="number" id="brush-size" min="1" max="20" value="5" />
+        </div>
+      </div>
+    </div>
+
+    <!-- Chat Section -->
+    <div id="chat-messages" class="sidebar">
+      <h2>Chat</h2>
+      <div id="chat" class="messages">
+        <!-- Chat messages will be dynamically populated here -->
+      </div>
+      <input type="text" id="message" placeholder="Type your guess..." />
+    </div>
+  </div>
+
+  <script>
+    // Canvas Setup
+    const canvas = document.getElementById("drawing-canvas");
+    const ctx = canvas.getContext("2d");
+    const colorPicker = document.getElementById("color-picker");
+    const brushSizeInput = document.getElementById("brush-size");
+    const clearCanvasButton = document.getElementById("clear-canvas");
+
+    let isDrawing = false;
+    let lastX = 0;
+    let lastY = 0;
+
+    // Start drawing
+    canvas.addEventListener("mousedown", (e) => {
+      isDrawing = true;
+      [lastX, lastY] = [e.offsetX, e.offsetY];
+    });
+
+    // Stop drawing
+    canvas.addEventListener("mouseup", () => (isDrawing = false));
+    canvas.addEventListener("mouseout", () => (isDrawing = false));
+
+    // Draw on canvas
+    canvas.addEventListener("mousemove", (e) => {
+      if (!isDrawing) return;
+      ctx.strokeStyle = colorPicker.value;
+      ctx.lineWidth = brushSizeInput.value;
+      ctx.lineJoin = "round";
+      ctx.lineCap = "round";
+      ctx.beginPath();
+      ctx.moveTo(lastX, lastY);
+      ctx.lineTo(e.offsetX, e.offsetY);
+      ctx.stroke();
+      [lastX, lastY] = [e.offsetX, e.offsetY];
+    });
+
+    // Clear canvas
+    clearCanvasButton.addEventListener("click", () => {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+    });
+  </script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
+    <script type="module" src={~p"/assets/js/socket.js"}></script>
+
+</body>
 
 </html>
-
