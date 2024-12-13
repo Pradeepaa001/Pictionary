@@ -1,13 +1,11 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Word Sketch - Room</title>
   <link rel="stylesheet" href="/css/room.css">
 </head>
-
 <body>
   <div class="game-container">
     <!-- Player List -->
@@ -54,50 +52,8 @@
     </div>
   </div>
 
-  <script>
-    // Canvas Setup
-    const canvas = document.getElementById("drawing-canvas");
-    const ctx = canvas.getContext("2d");
-    const colorPicker = document.getElementById("color-picker");
-    const brushSizeInput = document.getElementById("brush-size");
-    const clearCanvasButton = document.getElementById("clear-canvas");
-
-    let isDrawing = false;
-    let lastX = 0;
-    let lastY = 0;
-
-    // Start drawing
-    canvas.addEventListener("mousedown", (e) => {
-      isDrawing = true;
-      [lastX, lastY] = [e.offsetX, e.offsetY];
-    });
-
-    // Stop drawing
-    canvas.addEventListener("mouseup", () => (isDrawing = false));
-    canvas.addEventListener("mouseout", () => (isDrawing = false));
-
-    // Draw on canvas
-    canvas.addEventListener("mousemove", (e) => {
-      if (!isDrawing) return;
-      ctx.strokeStyle = colorPicker.value;
-      ctx.lineWidth = brushSizeInput.value;
-      ctx.lineJoin = "round";
-      ctx.lineCap = "round";
-      ctx.beginPath();
-      ctx.moveTo(lastX, lastY);
-      ctx.lineTo(e.offsetX, e.offsetY);
-      ctx.stroke();
-      [lastX, lastY] = [e.offsetX, e.offsetY];
-    });
-
-    // Clear canvas
-    clearCanvasButton.addEventListener("click", () => {
-      ctx.clearRect(0, 0, canvas.width, canvas.height);
-    });
-  </script>
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.4/jquery.min.js"></script>
-    <script type="module" src={~p"/assets/js/socket.js"}></script>
-
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <script type="module" src={~p"/assets/js/socket.js"}></script>
 </body>
 
 </html>
