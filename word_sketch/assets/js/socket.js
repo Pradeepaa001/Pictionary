@@ -8,6 +8,10 @@ document.addEventListener('DOMContentLoaded', () => {
         console.error('User or Room not found in session storage');
         return;
     }
+    const roomCodeElement = document.getElementById('room-code');
+    if (roomCodeElement) {
+        roomCodeElement.textContent = roomCode;
+    }
 
     const socket = new Socket("/socket", { params: { username: username, roomCode: roomCode } })
     socket.connect()
