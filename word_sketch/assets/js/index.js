@@ -14,18 +14,6 @@ document.addEventListener("DOMContentLoaded", () => {
             sessionStorage.setItem('user_id', userName);
             sessionStorage.setItem('room_id', roomCode)
             window.location.href = `room${roomCode}`;
-        //     fetch(`/room_exists?/${roomCode}`)
-        //       .then(response => response.json())
-        //       .then(data => {
-        //         if (data.exists) {
-        //             sessionStorage.setItem('user_id', userName);
-        //             sessionStorage.setItem('room_id', roomCode)
-        //             window.location.href = `room${roomCode}`; 
-        //         } else {
-        //               alert("No such room exists");
-        //         }
-        //     })
-        //     .catch(error => console.error("Error checking room:", error)); 
         } else {
             alert("Please enter your name and room code!");
         }

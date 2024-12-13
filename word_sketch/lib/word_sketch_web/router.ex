@@ -17,7 +17,6 @@ defmodule WordSketchWeb.Router do
   scope "/", WordSketchWeb do
     pipe_through :browser
 
-    post "/game_exists/:room_code", IndexController, :game_exists
     get "/", IndexController, :index
     get "/room:roomCode", PageController, :room
     post "/create_room", IndexController, :create_room
