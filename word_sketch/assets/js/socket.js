@@ -154,6 +154,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
     channel.push("start_timer", { time: 60 })
 
+
+// Listen for time updates from the server
+channel.on("timer_update", payload => {
+  let timeLeft = payload.time_left;
+  updateTimer(timeLeft);
+})
+
+// Function to update the countdown timer in the HTML
+function updateTimer(timeLeft) {
+  let minutes = Math.floor(timeLeft / 60);
+  let seconds = timeLeft % 60;
+  if (seconds < 10) {
+    seconds = "0" + seconds;
+  }
+  document.getElementById("countdown").innerText = `${minutes}:${seconds}`;
+}
+
+
+
+
 })
 
 export default socket

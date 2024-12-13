@@ -66,7 +66,7 @@ defmodule WordSketchWeb.RoomChannel do
   alias WordSketch.Chat
   alias WordSketch.Games.Game
   alias WordSketch.Repo
-  alias WordSketch.Users.User
+  #alias WordSketch.Users.User
   import Ecto.Query
 
   def join("room" <> roomCode, _payload, socket) do

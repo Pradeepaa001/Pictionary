@@ -4,15 +4,13 @@ defmodule WordSketch.Repo.Migrations.CreateUsers do
   def change do
     create table(:users) do
       add :username, :string
-      add :roomcode, :string
+      add :room_code, :string
       add :role, :string, default: "player"
       add :score, :integer, default: 0
       timestamps()
     end
 
-
-  create index(:users, [:username])
-  create index(:users, [:roomcode])
-
+    create index(:users, [:username, :room_code])
   end
 end
+
