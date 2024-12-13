@@ -26,7 +26,7 @@ defmodule WordSketch.Repo.Migrations.CreateGames do
     end
 
     # Drop old index and create new unique index for room_code
-    execute("DROP INDEX IF EXISTS games_room_code_index")
-    create unique_index(:games, [:room_code])
+    # execute("DROP INDEX IF EXISTS games_room_code_index")
+    # create unique_index(:games, [:room_code])
   end
 end
