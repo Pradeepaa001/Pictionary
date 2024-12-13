@@ -64,9 +64,13 @@ defmodule WordSketchWeb.RoomChannel do
   use Phoenix.Channel
   alias WordSketch.GameTimer
   alias WordSketch.Chat
+  alias WordSketch.Games.Game
+  alias WordSketch.Repo
+  import Ecto.Query
 
   def join("room" <> roomCode, _payload, socket) do
     IO.inspect(roomCode, label: "Room joined with code")
+    socket = assign(socket, :room_code, roomCode)
     {:ok, socket}
   end
 
@@ -94,6 +98,12 @@ defmodule WordSketchWeb.RoomChannel do
     {:noreply, socket}
   end
 
+  def handle_in("check_room", %{"room_code" => room_code}, socket) do
+    exists = check_room_exists(room_code)
+    IO.inspect(exists, label: "Room exists?")
+    {:reply, {:ok, %{exists: exists}}, socket}
+  end
+
   # Push timer updates to the client
   def handle_info(%{event: :time_update, time_left: time_left}, socket) do
     push(socket, "timer_update", %{time_left: time_left})
@@ -104,5 +114,13 @@ defmodule WordSketchWeb.RoomChannel do
   def handle_info(%{event: :game_over, winner: winner}, socket) do
     push(socket, "game_over", %{winner: winner})
     {:stop, :normal, socket}
+  end
+
+  defp check_room_exists(room_code) do
+    query = from g in Game,
+            where: g.room_code == ^room_code,
+            select: count(g.id) > 0
+
+    Repo.one(query)
   end
 end
