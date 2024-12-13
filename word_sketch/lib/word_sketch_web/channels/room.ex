@@ -70,6 +70,11 @@ defmodule WordSketchWeb.RoomChannel do
     {:ok, socket}
   end
 
+  def handle_in("draw", payload, socket) do
+    broadcast!(socket, "draw", payload)
+    {:noreply, socket}
+  end
+
   def handle_in("start_timer", %{"time" => time}, socket) do
     # Start the timer with the specified time and roomCode
     GameTimer.start_link(time, socket.assigns.roomCode)
@@ -84,6 +89,11 @@ defmodule WordSketchWeb.RoomChannel do
       username: username,
       roomCode: roomCode
     })
+    {:noreply, socket}
+  end
+
+  def handle_in("clear_canvas", payload, socket) do
+    broadcast!(socket, "clear_canvas", payload)
     {:noreply, socket}
   end
 
