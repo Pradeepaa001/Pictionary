@@ -9,9 +9,10 @@ defmodule WordSketch.Repo.Migrations.CreateUsers do
       add :score, :integer, default: 0
       timestamps()
     end
-  end
+
 
   create index(:users, [:username])
   create index(:users, [:roomcode])
 
+  end
 end
