@@ -15,11 +15,14 @@ defmodule WordSketchWeb.Endpoint do
     websocket: [connect_info: [session: @session_options]],
     longpoll: [connect_info: [session: @session_options]]
 
+  # socket "/socket", WordSketchWeb.UserSocket,
+  #   websocket: [
+  #     connect_info: [:peer_data, :x_headers, :uri, session: @session_options]
+  #   ],
+  #   longpoll: false
   socket "/socket", WordSketchWeb.UserSocket,
-    websocket: [
-      connect_info: [:peer_data, :x_headers, :uri, session: @session_options]
-    ],
-    longpoll: false
+  websocket: true,
+  longpoll: false
 
 
   # Serve at "/" the static files from "priv/static" directory.
