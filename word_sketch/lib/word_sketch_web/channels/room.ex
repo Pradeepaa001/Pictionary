@@ -86,13 +86,13 @@ defmodule WordSketchWeb.RoomChannel do
     {:noreply, socket}
   end
 
-  def handle_in("new_message", %{"message" => message, "username" => username, "roomCode" => roomCode}, socket) do
-    # Process the message (if needed) and broadcast to the room
-    modified_message = Chat.process_message(username, message, "startgame")
+  def handle_in("new_message", %{"message" => message, "username" => username, "roomCode" => roomCode, "targetword" => target_word}, socket) do
+    [modified_message, target]= Chat.process_message(username, message, target_word)
     broadcast!(socket, "new_message", %{
       message: modified_message,
       username: username,
-      roomCode: roomCode
+      roomCode: roomCode,
+      targetword: target
     })
     {:noreply, socket}
   end
@@ -103,7 +103,7 @@ defmodule WordSketchWeb.RoomChannel do
   end
 
   def handle_in("make_guess", %{"user" => user}, socket) do
-    # Get time from the timer and register the correct guess
+
     guess_time = GameTimer.get_time(socket.assigns.roomCode)
     GameTimer.guess_correct(socket.assigns.roomCode, user, guess_time)
     {:noreply, socket}
@@ -121,13 +121,10 @@ defmodule WordSketchWeb.RoomChannel do
     {:noreply, socket}
   end
 
-  # Handle game over event and notify the client
   def handle_info(%{event: :game_over, winner: winner}, socket) do
     push(socket, "game_over", %{winner: winner})
     {:stop, :normal, socket}
   end
-
-  #def handle_in("")
 
   defp check_room_exists(room_code) do
     query = from g in Game,
