@@ -3,7 +3,8 @@ import { Socket } from "phoenix"
 document.addEventListener('DOMContentLoaded', () => {
     let username = sessionStorage.getItem('user_id');
     let roomCode = sessionStorage.getItem('room_id');
-    
+    let currentTargetWord = 'startgame';
+
     if (!username || !roomCode) {
         console.error('User or Room not found in session storage');
         return;
@@ -142,13 +143,15 @@ document.addEventListener('DOMContentLoaded', () => {
             channel.push('new_message', { 
                 message: message.val(), 
                 username: username, 
-                roomCode: roomCode 
+                roomCode: roomCode,
+                targetword: currentTargetWord
             })
             message.val('')
         }
     })
 
     channel.on('new_message', payload => {
+        currentTargetWord = payload.targetword;
         list.append(`<b>${payload.username}:</b> ${payload.message}<br>`)
         list.prop({ scrollTop: list.prop("scrollHeight") })
     })
