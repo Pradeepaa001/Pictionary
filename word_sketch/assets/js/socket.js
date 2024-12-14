@@ -119,8 +119,8 @@ document.addEventListener('DOMContentLoaded', () => {
                 ctx.closePath();
                 break;
             case 'clear':
-              ctx.clearRect(0, 0, canvas.width, canvas.height);
-              break;
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                break;
         }
     });
 
@@ -173,7 +173,6 @@ document.addEventListener('DOMContentLoaded', () => {
 //   }
 //   document.getElementById("countdown").innerText = `${minutes}:${seconds}`;
 // }
-
 
 
 

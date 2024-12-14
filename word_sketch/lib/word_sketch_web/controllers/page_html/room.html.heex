@@ -17,12 +17,10 @@
         <p>Room Code: <strong id="room-code"></strong></p>
         <p>Share this with your friends!</p>
       </div>
-
       <!-- Game Header -->
       <div id="game-header">
-        <p> Set the next word using the command "\word guess_word" in the chat.</p>
+        <p>Set the word using the command <strong id="word-to-draw">" \word guess_word "</strong> in the chat.</p>
       </div>
-
       <!-- Canvas -->
       <div id="drawing-canvas-container">
         <canvas id="drawing-canvas" width="800" height="400"></canvas>
@@ -33,7 +31,6 @@
         </div>
       </div>
     </div>
-
     <!-- Chat Section -->
     <div id="chat-messages" class="sidebar">
       <h2>Chat</h2>
@@ -43,9 +40,7 @@
       <input type="text" id="message" placeholder="Type your guess..." />
     </div>
   </div>
-
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-  <script type="module" src={~p"/assets/js/socket.js"}></script>
+  <script type="module" src="/assets/js/socket.js"></script>
 </body>
-
 </html>
