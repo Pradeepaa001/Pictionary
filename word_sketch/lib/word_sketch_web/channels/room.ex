@@ -66,7 +66,6 @@ defmodule WordSketchWeb.RoomChannel do
   alias WordSketch.Chat
   alias WordSketch.Games.Game
   alias WordSketch.Repo
-  #alias WordSketch.Users.User
   import Ecto.Query
 
   def join("room" <> roomCode, _payload, socket) do
@@ -127,7 +126,7 @@ defmodule WordSketchWeb.RoomChannel do
     {:stop, :normal, socket}
   end
 
-  #def handle_in("")
+
 
   defp check_room_exists(room_code) do
     query = from g in Game,
@@ -136,4 +135,5 @@ defmodule WordSketchWeb.RoomChannel do
 
     Repo.one(query)
   end
+
 end

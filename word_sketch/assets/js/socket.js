@@ -105,21 +105,26 @@ document.addEventListener('DOMContentLoaded', () => {
 
         switch(payload.type) {
             case 'start':
-                ctx.color = colorPicker;
+                ctx.strokeStyle = payload.isErasing ? 'white' : payload.color;
+                ctx.globalCompositeOperation = payload.isErasing ? 'destination-out' : 'source-over';
+                ctx.lineWidth = payload.lineWidth;
                 ctx.beginPath();
                 ctx.moveTo(payload.x, payload.y);
                 break;
             case 'draw':
-                ctx.color = colorPicker;
+                ctx.strokeStyle = payload.isErasing ? 'white' : payload.color;
+                ctx.globalCompositeOperation = payload.isErasing ? 'destination-out' : 'source-over';
+                ctx.lineWidth = payload.lineWidth;
                 ctx.lineTo(payload.x, payload.y);
                 ctx.stroke();
                 break;
             case 'end':
                 ctx.closePath();
+                ctx.globalCompositeOperation = 'source-over';
                 break;
             case 'clear':
-              ctx.clearRect(0, 0, canvas.width, canvas.height);
-              break;
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                break;
         }
     });
 
@@ -170,7 +175,6 @@ function updateTimer(timeLeft) {
   }
   document.getElementById("countdown").innerText = `${minutes}:${seconds}`;
 }
-
 
 
 
