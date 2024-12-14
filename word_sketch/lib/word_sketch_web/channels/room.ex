@@ -80,11 +80,11 @@ defmodule WordSketchWeb.RoomChannel do
     {:noreply, socket}
   end
 
-  def handle_in("start_timer", %{"time" => time}, socket) do
-    # Start the timer with the specified time and roomCode
-    GameTimer.start_link(time, socket.assigns.roomCode)
-    {:noreply, socket}
-  end
+  # def handle_in("start_timer", %{"time" => time}, socket) do
+  #   # Start the timer with the specified time and roomCode
+  #   GameTimer.start_link(time, socket.assigns.roomCode)
+  #   {:noreply, socket}
+  # end
 
   def handle_in("new_message", %{"message" => message, "username" => username, "roomCode" => roomCode, "targetword" => target_word}, socket) do
     [modified_message, target]= Chat.process_message(username, message, target_word)
@@ -115,11 +115,11 @@ defmodule WordSketchWeb.RoomChannel do
     {:reply, {:ok, %{exists: exists}}, socket}
   end
 
-  # Push timer updates to the client
-  def handle_info(%{event: :time_update, time_left: time_left}, socket) do
-    push(socket, "timer_update", %{time_left: time_left})
-    {:noreply, socket}
-  end
+  # # Push timer updates to the client
+  # def handle_info(%{event: :time_update, time_left: time_left}, socket) do
+  #   push(socket, "timer_update", %{time_left: time_left})
+  #   {:noreply, socket}
+  # end
 
   def handle_info(%{event: :game_over, winner: winner}, socket) do
     push(socket, "game_over", %{winner: winner})
