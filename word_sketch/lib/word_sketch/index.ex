@@ -3,6 +3,7 @@ defmodule WordSketch.Index do
   # interacts with the game schema ig
   alias WordSketch.Repo
   alias WordSketch.Games.Game
+  alias WordSketch.Users.User
 
   def create_room(user_name) do
     room_code = generate_unique_room_code()
@@ -11,6 +12,12 @@ defmodule WordSketch.Index do
       room_code: room_code,
       creator_name: user_name,
       status: "active"
+    })
+
+    changeset = User.changeset(%User{}, %{
+      username: user_name,
+      room_code: room_code,
+      role: "creator"
     })
 
     case Repo.insert(changeset) do

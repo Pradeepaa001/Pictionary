@@ -13,4 +13,3 @@ defmodule WordSketch.Repo.Migrations.CreateUsers do
     create index(:users, [:username, :room_code])
   end
 end
-

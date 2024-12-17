@@ -67,7 +67,6 @@ defmodule WordSketchWeb.RoomChannel do
     query = from g in Game,
             where: g.room_code == ^room_code,
             select: count(g.id) > 0
-
     Repo.one(query)
   end
 
