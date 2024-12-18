@@ -3,6 +3,7 @@ defmodule WordSketchWeb.RoomChannel do
   alias WordSketch.GameTimer
   alias WordSketch.Chat
   alias WordSketch.Games.Game
+  alias WordSketch.Users.User
   alias WordSketch.Repo
   import Ecto.Query
 
@@ -40,17 +41,22 @@ defmodule WordSketchWeb.RoomChannel do
   end
 
   def handle_in("make_guess", %{"user" => user}, socket) do
-
     guess_time = GameTimer.get_time(socket.assigns.roomCode)
     GameTimer.guess_correct(socket.assigns.roomCode, user, guess_time)
     {:noreply, socket}
   end
 
-  def handle_in("check_room", %{"room_code" => room_code}, socket) do
+  def handle_in("check_room", %{"room_code" => room_code, "userName" => userName}, socket) do
     exists = check_room_exists(room_code)
     IO.inspect(exists, label: "Room exists?")
-    IO.puts("here lies EXISTS")
-    IO.puts(exists)
+    if exists do
+      changeset_user = User.changeset(%User{}, %{
+        username: userName,
+        room_code: room_code,
+        role: "player"
+      })
+      Repo.insert(changeset_user)
+    end
     {:reply, {:ok, %{exists: exists}}, socket}
   end
 

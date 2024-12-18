@@ -9,7 +9,7 @@ document.addEventListener("DOMContentLoaded", () => {
     const socket = new Socket("/socket", {});
         socket.connect();
 
-    const checkRoomExists = async (roomCode) => {
+    const checkRoomExists = async (roomCode, userName) => {
         
         const channel = socket.channel(`room${roomCode}`);
         
@@ -22,7 +22,7 @@ document.addEventListener("DOMContentLoaded", () => {
                     .receive("timeout", () => reject("Timeout"));
             });
             const response = await new Promise((resolve, reject) => {
-                channel.push("check_room", { room_code: roomCode })
+                channel.push("check_room", { room_code: roomCode, userName: userName })
                     .receive("ok", (response) => resolve(response))
                     .receive("error", (error) => reject(error))
                     .receive("timeout", () => reject("Timeout"));;
@@ -38,6 +38,7 @@ document.addEventListener("DOMContentLoaded", () => {
             throw error;
         }
     };    
+    
     joinbutton.addEventListener("click", async () => {
         const userName = input.value.trim();
         const roomCode = roomcode.value.trim();
@@ -45,7 +46,7 @@ document.addEventListener("DOMContentLoaded", () => {
         if (userName && roomCode) {
             try {
                 console.log("Checking room:", roomCode);
-                const exists = await checkRoomExists(roomCode);
+                const exists = await checkRoomExists(roomCode, userName);
                 console.log("Room exists:", exists);
                 if (exists) {
                     sessionStorage.setItem('user_id', userName);
