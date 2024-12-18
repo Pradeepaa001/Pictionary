@@ -8,24 +8,30 @@ defmodule WordSketch.Index do
   def create_room(user_name) do
     room_code = generate_unique_room_code()
 
-    changeset = Game.changeset(%Game{}, %{
+    changeset_game = Game.changeset(%Game{}, %{
       room_code: room_code,
       creator_name: user_name,
       status: "active"
     })
 
-    changeset = User.changeset(%User{}, %{
+    changeset_user = User.changeset(%User{}, %{
       username: user_name,
       room_code: room_code,
       role: "creator"
     })
 
-    case Repo.insert(changeset) do
+    case Repo.insert(changeset_game) do
       {:ok, game} ->
-        {:ok, %{room_id: game.id, room_code: game.room_code, creator_name: user_name}}
-      {:error, changeset} ->
-        {:error, changeset}
+        case Repo.insert(changeset_user) do
+          {:ok, user} ->
+            {:ok, %{room_id: game.id, room_code: game.room_code, creator_name: user_name, user_id: user.id , username: user.username, role: user.role}}
+          {:error, changeset} ->
+            {:error, changeset}
+        end
+      {:error, changeset_game} ->
+        {:error, changeset_game}
     end
+
   end
 
   defp generate_unique_room_code do

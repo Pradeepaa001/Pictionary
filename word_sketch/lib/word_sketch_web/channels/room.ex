@@ -49,6 +49,8 @@ defmodule WordSketchWeb.RoomChannel do
   def handle_in("check_room", %{"room_code" => room_code}, socket) do
     exists = check_room_exists(room_code)
     IO.inspect(exists, label: "Room exists?")
+    IO.puts("here lies EXISTS")
+    IO.puts(exists)
     {:reply, {:ok, %{exists: exists}}, socket}
   end
 
