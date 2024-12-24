@@ -7,40 +7,78 @@
   <link rel="stylesheet" href="/css/room.css">
 </head>
 <body>
-  
   <div class="game-container">
-
     <!-- Main Content -->
     <div class="main-content">
-      <!-- Room Header -->
-      <div id="room-header">
-        <p>Room Code: <strong id="room-code"></strong></p>
-        <p>Share this with your friends!</p>
-      </div>
-      <!-- Game Header -->
-      <div id="game-header">
-        <p>Set the word using the command <strong id="word-to-draw">" \word guess_word "</strong> in the chat.</p>
-      </div>
-      <!-- Canvas -->
-      <div id="drawing-canvas-container">
-        <canvas id="drawing-canvas" width="800" height="400"></canvas>
-        <div class="controls">
-          <button id="clear-canvas">Clear</button>
-          <input type="color" id="color-picker" value="#000000" />
-          <input type="number" id="brush-size" min="1" max="20" value="5" />
+        <!-- Room Header -->
+        <div id="room-header">
+            <p>Room Code: <strong id="room-code"></strong></p>
+            <p>Share this with your friends!</p>
         </div>
-      </div>
+        <!-- Game Header -->
+        <div id="game-header">
+            <p>Set the word using the command <strong id="word-to-draw">" \word guess_word "</strong> in the chat.</p>
+        </div>
+        <!-- Canvas -->
+        <div id="drawing-canvas-container">
+            <canvas id="drawing-canvas" width="800" height="400"></canvas>
+        </div>
+        <!-- Canvas Controls -->
+        <div class="controls">
+            <button id="clear-canvas">Clear</button>
+            <input type="color" id="color-picker" value="#000000" />
+            <input type="number" id="brush-size" min="1" max="20" value="5" />
+        </div>
     </div>
+
     <!-- Chat Section -->
     <div id="chat-messages" class="sidebar">
-      <h2>Chat</h2>
-      <div id="chat" class="messages">
-        <!-- Chat messages will be dynamically populated here -->
-      </div>
-      <input type="text" id="message" placeholder="Type your guess..." />
+        <h2>Chat</h2>
+        <div id="chat" class="messages">
+            <!-- Chat messages will be dynamically populated here -->
+        </div>
+        <input type="text" id="message" placeholder="Type your guess..." />
     </div>
-  </div>
+</div>
+
+
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
   <script type="module" src="/assets/js/socket.js"></script>
+  <script>
+    const canvas = document.getElementById('drawing-canvas');
+    const context = canvas.getContext('2d');
+  
+    function resizeCanvas() {
+      // Match canvas internal size to its CSS size
+      const rect = canvas.getBoundingClientRect();
+      canvas.width = rect.width;
+      canvas.height = rect.height;
+    }
+  
+    // Resize canvas on window resize and initial load
+    window.addEventListener('resize', resizeCanvas);
+    resizeCanvas();
+  
+    // Example: Enable basic drawing
+    let drawing = false;
+  
+    canvas.addEventListener('mousedown', (e) => {
+      drawing = true;
+      context.beginPath();
+      context.moveTo(e.offsetX, e.offsetY);
+    });
+  
+    canvas.addEventListener('mousemove', (e) => {
+      if (!drawing) return;
+      context.lineTo(e.offsetX, e.offsetY);
+      context.stroke();
+    });
+  
+    canvas.addEventListener('mouseup', () => {
+      drawing = false;
+      context.closePath();
+    });
+  </script>
+  
 </body>
 </html>

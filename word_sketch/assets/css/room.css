@@ -1,13 +1,4 @@
-
-/* #chat{
-    border: 1px solid black;
-    height: 600px;
-    width: 200px;
-    padding: 5px;
-    overflow: scroll;
-    margin-bottom: 10px;
-} */
-
+/* General Reset */
 * {
     margin: 0;
     padding: 0;
@@ -16,117 +7,192 @@
 
 body {
     font-family: Arial, sans-serif;
-    background-image: url('/images/background.jpg'); /* Replace with your image file */
-    background-size: cover; /* Ensures the image covers the entire background */
-    background-position: center; /* Centers the image */
-    background-repeat: no-repeat; /* Prevents tiling */
+    background-image: url('/images/background.jpg');
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
     display: flex;
     justify-content: center;
     align-items: center;
-    height: 100vh;     
+    height: 100vh;
+    overflow: hidden;
 }
 
 .game-container {
     display: flex;
+    flex-direction: row;
     height: 90vh;
     width: 90vw;
+    max-width: 1200px;
     background-color: #fff;
     border-radius: 8px;
     overflow: hidden;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
 }
 
-/* Sidebar */
+/* Sidebar (Chat Section) */
 .sidebar {
-    width: 20%;
-    background-color: #e6e9f2;
-    padding: 10px;
+    flex-basis: 30%;
+    max-width: 300px;
+    min-width: 150px;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    overflow-y: auto;
+    background-color: #f9f9f9;
+    border-left: 1px solid #ddd;
+    overflow: hidden;
+    height: 100%; /* Match height with the canvas */
 }
 
 .sidebar h2 {
-    margin-bottom: 10px;
-}
-
-#players, #chat {
-    list-style-type: none;
-    width: 100%;
-    margin-top: 10px;
+    margin: 10px;
+    font-size: 1rem;
+    text-align: center;
 }
 
 #chat {
-    flex: 1;
+    flex-grow: 1;
     padding: 10px;
-    background-color: #f9f9f9;
-    border: 1px solid #ddd;
+    background-color: #fff;
     overflow-y: auto;
-    height: 200px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    margin: 10px;
+    height: calc(100% - 60px); /* Adjust to avoid overflow */
 }
 
 #message {
+    margin: 10px;
     padding: 10px;
-    width: 100%;
-    margin-top: 10px;
+    width: calc(100% - 20px);
     border: 1px solid #ccc;
     border-radius: 4px;
 }
 
-/* Main Content */
+/* Main Content (Canvas Section) */
 .main-content {
-    
-    flex: 1;
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    padding: 20px;
+    padding: 10px;
+    overflow: hidden;
 }
 
 #room-header, #game-header {
     text-align: center;
     margin-bottom: 10px;
-    width: 100%;
-    font-size: 16px;
+    font-size: 1rem;
     background-color: #f0f0f0;
     padding: 10px;
     border-radius: 5px;
 }
 
 #drawing-canvas-container {
-    flex: 1;
+    flex-grow: 1;
     display: flex;
     flex-direction: column;
-    align-items: center;
     justify-content: center;
+    align-items: center;
+    height: 100%; /* Dynamically adjusts to fill available space */
     position: relative;
 }
 
 #drawing-canvas {
+    width: 100%; /* Take the full width of the container */
+    height: auto; /* Maintain aspect ratio */
+    max-width: 800px; /* Restrict maximum size */
+    max-height: 100%; /* Ensure it doesn't exceed the container's height */
+    aspect-ratio: 2 / 1; /* Maintain consistent aspect ratio */
     border: 2px solid #ddd;
     border-radius: 8px;
 }
 
 .controls {
     display: flex;
+    justify-content: center;
     gap: 10px;
     margin-top: 10px;
+    flex-wrap: wrap; /* Allow wrapping for small screens */
 }
 
-.hidden {
-    display: none;
+.controls button,
+.controls input {
+    padding: 10px;
+    border-radius: 5px;
+    border: 1px solid #ddd;
+    font-size: 1rem;
 }
 
-#guess-popup {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    background: blue;
-    padding: 20px;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    text-align: center;
+.controls input {
+    max-width: 80px;
+}
+
+/* Responsive Design */
+@media (max-width: 768px) {
+    .game-container {
+        flex-direction: row;
+    }
+
+    .sidebar {
+        flex-basis: 30%;
+        max-width: 30%;
+        min-width: 150px;
+        height: 100%; /* Match height to canvas */
+        position: relative;
+        border-left: 1px solid #ddd;
+    }
+
+    .main-content {
+        flex-grow: 1;
+        flex-basis: 70%;
+        width: 70%;
+    }
+
+    #drawing-canvas-container {
+        height: 100%; /* Ensure canvas fills available space */
+    }
+
+    #drawing-canvas {
+        width: 100%;
+        max-height: calc(90vh - 60px); /* Dynamically adjust for split-screen */
+        aspect-ratio: 2 / 1; /* Ensure canvas doesn't stretch */
+    }
+
+    .controls {
+        flex-direction: row;
+        gap: 5px;
+    }
+}
+
+@media (max-width: 480px) {
+    .sidebar {
+        flex-basis: 40%;
+        max-width: 40%;
+        min-width: 150px;
+    }
+
+    .main-content {
+        flex-basis: 60%;
+        width: 60%;
+    }
+
+    #drawing-canvas {
+        max-height: calc(50vh - 60px);
+    }
+
+    .controls input {
+        font-size: 0.9rem;
+    }
+
+    #message {
+        font-size: 0.8rem;
+    }
+
+    .sidebar h2 {
+        font-size: 0.8rem;
+    }
+
+    .controls {
+        flex-direction: column;
+        gap: 5px;
+    }
 }
